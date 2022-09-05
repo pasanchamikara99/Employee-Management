@@ -2,9 +2,28 @@ from http.client import HTTPResponse
 from django.shortcuts import render,HttpResponse
 from django.contrib import messages
 from authentication.models import EmployeesReg
+from cryptography.fernet import Fernet
 
 
 # Create your views here.
+
+def encryptedPassword(password):
+    global key ;
+    key = Fernet.generate_key()
+    fernet = Fernet(key)
+
+    encpassword = fernet.encrypt(password.encode())
+    return encpassword
+
+def decryptedPassword(password):
+    #key = Fernet.generate_key()
+    fernet = Fernet(key)
+
+    decpassword = fernet.decrypt(password).decode()
+    return decpassword
+
+
+
 
 def register(request):
 
@@ -24,14 +43,20 @@ def register(request):
                 messages.success(request,"Password mismatch , try again !!! ")
         else:
                 saveRecord = EmployeesReg()
-
                 saveRecord.empid = empID
                 saveRecord.fname = fname
                 saveRecord.lname = lname
                 saveRecord.email = email
-                saveRecord.password = password
+                saveRecord.position = position
+                saveRecord.password = encryptedPassword(password)
+                
 
                 saveRecord.save()
+
+                #encp = encryptedPassword(password)
+                #decy = decryptedPassword(encp)
+                #print(encp)
+                #print(decy)
 
                 messages.success(request,"Employee Registraion sucessfully")
 
