@@ -3,6 +3,7 @@ from django.shortcuts import render,HttpResponse
 from django.contrib import messages
 from authentication.models import EmployeesReg
 from cryptography.fernet import Fernet
+import smtplib
 
 
 # Create your views here.
@@ -57,6 +58,14 @@ def register(request):
                 #decy = decryptedPassword(encp)
                 #print(encp)
                 #print(decy)
+
+                subject = "Hello " + fname + "\n  Your Employee id is " + empID + "\n User password is  " + password
+
+                server = smtplib.SMTP('smtp.gmail.com',587)
+                server.starttls()
+
+                server.login('jayanandanafachion@gmail.com','ncipterepthpugjl')
+                server.sendmail('jayanandanafashion@gmail.com','pasanchamikara989@gmail.com',subject)
 
                 messages.success(request,"Employee Registraion sucessfully")
 
