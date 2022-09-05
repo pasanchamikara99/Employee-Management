@@ -9,7 +9,19 @@
 <body>
     <h1>This is index page</h1>
 
-    
+   <p>This is a paragraph add to feature branch </p>
+
+
+
+
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+   {% for msg in messages %}
+   <script>
+       swal('{{msg}}');
+   </script>
+   {% endfor %}
    
 </body>
 </html>
