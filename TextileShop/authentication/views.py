@@ -59,7 +59,7 @@ def register(request):
                 #print(encp)
                 #print(decy)
 
-                subject = "Hello " + fname + "\n  Your Employee id is " + empID + "\n User password is  " + password
+                subject = "Hello " + fname + "\n Your Employee id is " + empID + "\n User password is  " + password
 
                 server = smtplib.SMTP('smtp.gmail.com',587)
                 server.starttls()
