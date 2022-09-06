@@ -8,6 +8,17 @@ import smtplib
 
 # Create your views here.
 
+def sendMail(fname,email,empID,password):
+
+    subject = "Hello " + fname + "\n Your Employee id is " + empID + "\n User password is  " + password
+
+    server = smtplib.SMTP('smtp.gmail.com',587)
+    server.starttls()
+
+    server.login('jayanandanafachion@gmail.com','ncipterepthpugjl')
+    server.sendmail('jayanandanafashion@gmail.com',email,subject)
+
+
 def encryptedPassword(password):
     global key ;
     key = Fernet.generate_key()
@@ -59,13 +70,8 @@ def register(request):
                 #print(encp)
                 #print(decy)
 
-                subject = "Hello " + fname + "\n Your Employee id is " + empID + "\n User password is  " + password
-
-                server = smtplib.SMTP('smtp.gmail.com',587)
-                server.starttls()
-
-                server.login('jayanandanafachion@gmail.com','ncipterepthpugjl')
-                server.sendmail('jayanandanafashion@gmail.com','pasanchamikara989@gmail.com',subject)
+                sendMail(fname,email,empID,password)
+                
 
                 messages.success(request,"Employee Registraion sucessfully")
 
