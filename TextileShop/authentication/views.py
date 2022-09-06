@@ -21,7 +21,6 @@ def sendMail(fname,email,empID,password):
 
 
 def encryptedPassword(password):
-    global key ;
     key = Fernet.generate_key()
     fernet = Fernet(key)
 
@@ -29,7 +28,7 @@ def encryptedPassword(password):
     return encpassword
 
 def decryptedPassword(password):
-    #key = Fernet.generate_key()
+    key = Fernet.generate_key()
     fernet = Fernet(key)
     decpassword = fernet.decrypt(password).decode()
     return decpassword
@@ -85,8 +84,19 @@ def login(request):
         empID = request.POST['empid']
         password = request.POST.get('password')
 
-        print( "Emp id "+ empID + " password : " + password)
+        employees = EmployeesReg.objects.all()
 
 
 
-    return  render(request,"user.html")
+        for emp in employees:
+
+            passw = decryptedPassword(emp.password)
+
+            print(emp.empid ,empID)
+            print(password,passw)
+            #if emp.empid == empID and passw == emp.password:
+                 ##messages.success(request,"Employee login sucessfully")
+                 #return  render(request,"user.html")
+
+    #messages.success(request,"Invalid login")
+    return  render(request,"index.html")
