@@ -5,6 +5,10 @@ from django.contrib import messages
 from authentication.models import EmployeesReg
 from cryptography.fernet import Fernet
 import smtplib
+from django.contrib.auth.hashers import check_password,make_password
+
+
+#check_password(password, hash password)
 
 
 # Create your views here.
@@ -18,23 +22,6 @@ def sendMail(fname,email,empID,password):
 
     server.login('jayanandanafachion@gmail.com','ncipterepthpugjl')
     server.sendmail('jayanandanafashion@gmail.com',email,subject)
-
-
-def encryptedPassword(password):
-    key = Fernet.generate_key()
-    fernet = Fernet(key)
-
-    encpassword = fernet.encrypt(password.encode())
-    return encpassword
-
-def decryptedPassword(password):
-    key = Fernet.generate_key()
-    fernet = Fernet(key)
-    decpassword = fernet.decrypt(password).decode()
-    return decpassword
-
-
-
 
 def register(request):
 
@@ -58,7 +45,8 @@ def register(request):
                 saveRecord.lname = lname
                 saveRecord.email = email
                 saveRecord.position = position
-                saveRecord.password = encryptedPassword(password)
+                #saveRecord.password = encryptedPassword(password)
+                saveRecord.password = make_password(password)
                 
                 saveRecord.save()
 
@@ -67,9 +55,6 @@ def register(request):
 
            
            
-        
- 
-
     return  render(request,"register.html")
 
 
@@ -88,15 +73,11 @@ def login(request):
 
 
 
-        for emp in employees:
-
-            passw = decryptedPassword(emp.password)
-
-            print(emp.empid ,empID)
-            print(password,passw)
-            if emp.empid == empID and passw == emp.password:
+        for emp in employees:   
+            flag = check_password(password,emp.password)
+            if emp.empid == empID and flag :
                  messages.success(request,"Employee login sucessfully")
                  return  render(request,"user.html")
 
-    messages.success(request,"Invalid login")
+    messages.success(request,"Invalid Login")
     return  render(request,"index.html")
