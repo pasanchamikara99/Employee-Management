@@ -25,19 +25,7 @@ def sendMail(fname,email,empID,password):
 <<<<<<< HEAD
 
 #encrypted password
-def encryptedPassword(password):
-    global key ;
-    key = Fernet.generate_key()
-    fernet = Fernet(key)
 
-    encpassword = fernet.encrypt(password.encode())
-    return encpassword
-
-def decryptedPassword(password):
-    #key = Fernet.generate_key()
-    fernet = Fernet(key)
-    decpassword = fernet.decrypt(password).decode()
-    return decpassword
 
 
 
