@@ -94,9 +94,9 @@ def login(request):
 
             print(emp.empid ,empID)
             print(password,passw)
-            #if emp.empid == empID and passw == emp.password:
-                 ##messages.success(request,"Employee login sucessfully")
-                 #return  render(request,"user.html")
+            if emp.empid == empID and passw == emp.password:
+                 messages.success(request,"Employee login sucessfully")
+                 return  render(request,"user.html")
 
-    #messages.success(request,"Invalid login")
+    messages.success(request,"Invalid login")
     return  render(request,"index.html")
