@@ -22,16 +22,8 @@ def sendMail(fname,email,empID,password):
     server.login('jayanandanafachion@gmail.com','ncipterepthpugjl')
     server.sendmail('jayanandanafashion@gmail.com',email,subject)
 
-<<<<<<< HEAD
-
-#encrypted password
 
 
-
-
-
-=======
->>>>>>> 6ddcf44250363b2f2116fb58204d45ee0da31709
 def register(request):
 
     if request.method == "POST":
