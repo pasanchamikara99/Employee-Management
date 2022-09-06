@@ -8,17 +8,17 @@ import smtplib
 
 # Create your views here.
 
+#send employee to his userid and password
 def sendMail(fname,email,empID,password):
 
     subject = "Hello " + fname + "\n Your Employee id is " + empID + "\n User password is  " + password
-
     server = smtplib.SMTP('smtp.gmail.com',587)
     server.starttls()
-
     server.login('jayanandanafachion@gmail.com','ncipterepthpugjl')
     server.sendmail('jayanandanafashion@gmail.com',email,subject)
 
 
+#encrypted password
 def encryptedPassword(password):
     global key ;
     key = Fernet.generate_key()
@@ -30,7 +30,6 @@ def encryptedPassword(password):
 def decryptedPassword(password):
     #key = Fernet.generate_key()
     fernet = Fernet(key)
-
     decpassword = fernet.decrypt(password).decode()
     return decpassword
 
@@ -39,10 +38,8 @@ def decryptedPassword(password):
 
 def register(request):
 
-
     if request.method == "POST":
 
-        #if request.POST.get('empid') and request.POST['fname'] and request.POST['lname'] and request.POST['email'] and request.POST['position'] and request.POST.get('password') and  request.POST.get('passwordc'): 
         empID = request.POST['empid']
         fname = request.POST['fname']
         lname = request.POST['lname']
