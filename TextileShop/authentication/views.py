@@ -1,6 +1,7 @@
+from contextlib import redirect_stderr
 from http.client import HTTPResponse
 from pickle import NONE
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import messages
 from authentication.models import EmployeesReg
 from cryptography.fernet import Fernet
@@ -71,13 +72,21 @@ def login(request):
 
         employees = EmployeesReg.objects.all()
 
-
+        log = True
 
         for emp in employees:   
             flag = check_password(password,emp.password)
             if emp.empid == empID and flag :
-                 messages.success(request,"Employee login sucessfully")
-                 return  render(request,"user.html")
+                 log = False
+                 
 
-    messages.success(request,"Invalid Login")
-    return  render(request,"index.html")
+    if log == False:
+        messages.success(request,"Employee login sucessfully")
+        return  render(request,"user.html")
+    else :
+        messages.info(request,"Invalid Login")
+        return  redirect("index")
+
+
+
+    
