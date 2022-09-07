@@ -9,9 +9,6 @@ import smtplib
 from django.contrib.auth.hashers import check_password,make_password
 
 
-#check_password(password, hash password)
-
-
 # Create your views here.
 
 #send employee to his userid and password
