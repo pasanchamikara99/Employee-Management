@@ -64,6 +64,10 @@ def register(request):
 def index(request):
     return  render(request,"index.html")
 
+
+
+    
+
 def login(request):
 
     if request.method == "POST":
@@ -77,15 +81,24 @@ def login(request):
         for emp in employees:   
             flag = check_password(password,emp.password)
             if emp.empid == empID and flag :
-                 log = False
+
+                if emp.position == "admin" :
+                    messages.success(request,"Admin login sucessfully")
+                    return  redirect("adminpage")
+                else :
+                    messages.success(request,"Employee login sucessfully")
+                    return  render(request,"user.html")
                  
 
-    if log == False:
-        messages.success(request,"Employee login sucessfully")
-        return  render(request,"user.html")
-    else :
-        messages.info(request,"Invalid Login")
-        return  redirect("index")
+   
+   
+    messages.info(request,"Invalid Login")
+    return  redirect("index")
+
+
+
+def adminpage(request):
+    return render(request,"admin.html")
 
 
 
