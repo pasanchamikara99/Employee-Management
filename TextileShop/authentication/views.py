@@ -11,7 +11,7 @@ from django.contrib.auth.hashers import check_password,make_password
 
 # Create your views here.
 
-#send employee to his userid and password
+#send employee to his userid and password via email
 def sendMail(fname,email,empID,password):
 
     subject = "Hello " + fname + "\n Your Employee id is " + empID + "\n User password is  " + password
