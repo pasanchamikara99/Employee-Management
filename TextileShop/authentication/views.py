@@ -11,7 +11,9 @@ from django.contrib.auth.hashers import check_password,make_password
 
 # Create your views here.
 
-#send employee to his userid and password via email
+context = {}
+
+#send employee to his userid and password
 def sendMail(fname,email,empID,password):
 
     subject = "Hello " + fname + "\n Your Employee id is " + empID + "\n User password is  " + password
@@ -79,12 +81,16 @@ def login(request):
             flag = check_password(password,emp.password)
             if emp.empid == empID and flag :
 
+
+                empid = request.POST.get('empid',None)
+                context['empid'] = empid
+
                 if emp.position == "admin" :
                     messages.success(request,"Admin login sucessfully")
                     return  redirect("adminpage")
                 else :
                     messages.success(request,"Employee login sucessfully")
-                    return  render(request,"user.html")
+                    return  redirect("userpage")
                  
 
    
@@ -95,7 +101,13 @@ def login(request):
 
 
 def adminpage(request):
-    return render(request,"admin.html")
+    return render(request,"admin.html",context)
+
+def userpage(request):
+    return render(request,"user.html",context)
+
+def changepassword(request):
+    return render(request,"changepassword.html",context)
 
 
 
