@@ -84,6 +84,7 @@ def login(request):
 
                 empid = request.POST.get('empid',None)
                 context['empid'] = empid
+                context['fname'] = emp.fname
 
                 if emp.position == "admin" :
                     messages.success(request,"Admin login sucessfully")
@@ -107,7 +108,46 @@ def userpage(request):
     return render(request,"user.html",context)
 
 def changepassword(request):
+
+    if request == "POST":
+        empID = request.POST['empid']
+        password = request.POST.get('password')
+        passwordc = request.POST.get('passwordc')
+
+        if password != passwordc:
+            messages.success(request,"Employee login sucessfully")
+            return  redirect("changepassword")
+        #else:
+
+
     return render(request,"changepassword.html",context)
+
+    
+
+        
+        
+
+
+
+    return render(request,"changepassword.html",context)
+
+def editpassword(request):
+    
+    if request == "POST":
+        password = request.POST.get('password')
+        passwordc = request.POST.get('passwordc')
+
+
+        print()
+
+
+        if password != passwordc :
+                messages.success(request,"Password mismatch , try again !!! ")
+        #else :
+
+
+def applyleave(request):
+    return render(request,"applyleave.html",context)
 
 
 
