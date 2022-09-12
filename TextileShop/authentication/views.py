@@ -9,6 +9,9 @@ import smtplib
 from django.contrib.auth.hashers import check_password,make_password
 
 
+
+
+
 # Create your views here.
 
 context = {}
@@ -75,7 +78,7 @@ def login(request):
 
         employees = EmployeesReg.objects.all()
 
-        log = True
+        
 
         for emp in employees:   
             flag = check_password(password,emp.password)
@@ -109,15 +112,44 @@ def userpage(request):
 
 def changepassword(request):
 
-    if request == "POST":
-        empID = request.POST['empid']
+    if request.method == "POST":
+        empID = request.POST.get('empid')
         password = request.POST.get('password')
         passwordc = request.POST.get('passwordc')
 
         if password != passwordc:
-            messages.success(request,"Employee login sucessfully")
+            messages.success(request,"Password mismatch , try again !!! ")
             return  redirect("changepassword")
-        #else:
+        else:
+                result = EmployeesReg.objects.filter(empid=empID)   
+                for re in result:
+                    saveRecord = EmployeesReg()
+                    saveRecord.empid = empID
+                    saveRecord.fname = re.fname
+                    saveRecord.lname = re.lname
+                    saveRecord.email = re.email
+                    saveRecord.position = re.position
+                    saveRecord.password = make_password(password)
+                    saveRecord.save()
+                    messages.success(request,"Change password sucessfully")
+                    return  redirect("userpage")
+
+
+
+            
+
+
+            
+    
+
+
+            
+
+
+
+
+    
+
 
 
     return render(request,"changepassword.html",context)
@@ -131,19 +163,6 @@ def changepassword(request):
 
     return render(request,"changepassword.html",context)
 
-def editpassword(request):
-    
-    if request == "POST":
-        password = request.POST.get('password')
-        passwordc = request.POST.get('passwordc')
-
-
-        print()
-
-
-        if password != passwordc :
-                messages.success(request,"Password mismatch , try again !!! ")
-        #else :
 
 
 def applyleave(request):

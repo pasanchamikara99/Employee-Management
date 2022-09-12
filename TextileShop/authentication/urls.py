@@ -9,6 +9,5 @@ urlpatterns = [
     path('adminpage',views.adminpage, name = "adminpage"),
     path('userpage',views.userpage, name = "userpage"),
     path('changepassword',views.changepassword, name = "changepassword"),
-    path('editpassword',views.editpassword, name = "editpassword"),
     path('applyleave',views.applyleave, name = "applyleave"),
 ]
