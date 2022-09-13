@@ -3,7 +3,7 @@ from http.client import HTTPResponse
 from pickle import NONE
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import messages
-from authentication.models import EmployeesReg
+from authentication.models import EmployeesReg,EmployeeLeave
 from cryptography.fernet import Fernet
 import smtplib
 from django.contrib.auth.hashers import check_password,make_password
@@ -124,6 +124,7 @@ def changepassword(request):
                 result = EmployeesReg.objects.filter(empid=empID)   
                 for re in result:
                     saveRecord = EmployeesReg()
+                    saveRecord.id = re.id
                     saveRecord.empid = empID
                     saveRecord.fname = re.fname
                     saveRecord.lname = re.lname
@@ -166,6 +167,19 @@ def changepassword(request):
 
 
 def applyleave(request):
+    if request.method == "POST":
+        empID = request.POST.get('empid')
+        date = request.POST.get('date')
+        reason = request.POST.get('reason')
+
+        saveRecord = EmployeeLeave()
+        saveRecord.empid = empID
+        saveRecord.date = date
+        saveRecord.reason = reason
+        saveRecord.save()
+        messages.success(request,"Apply leave sucessfully")
+
+
     return render(request,"applyleave.html",context)
 
 
