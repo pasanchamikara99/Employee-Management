@@ -149,13 +149,11 @@ def changepassword(request):
                     saveRecord.position = re.position
                     saveRecord.password = make_password(password)
                     saveRecord.save()
+                    sendMail(re.fname,re.email,empID,password)
                     messages.success(request,"Change password sucessfully")
                     return  redirect("userpage")
 
     return render(request,"changepassword.html",context)
-
-    return render(request,"changepassword.html",context)
-
 
 
 def applyleave(request):
@@ -242,10 +240,7 @@ def updateuser(request):
     return  redirect("adminpage")
 
 
-def delete_emp(request,id):
 
-    print(id)
-    employee = EmployeesReg.objects.get(id = id)
 
     
 
