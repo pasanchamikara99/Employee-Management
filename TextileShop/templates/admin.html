@@ -31,7 +31,11 @@
                 <td>{{emp.lname}}</td>
                 <td>{{emp.email}}</td>
                 <td>{{emp.position}}</td>
+<<<<<<< HEAD
                 <td><a id="update" href="{% url 'update_emp' emp.id %}">Update</a> <a id="delete" href="{% url 'delete_emp' emp.id %}">Delete</a></td>
+=======
+                <td><a id="update" href="{% url 'update_emp' emp.id %}">Update Employee</a></td>
+>>>>>>> d3090b1c5bb1c00824d63c614f296f6c042cc954
                 </tr>
                 {% endfor %}
             </tbody>

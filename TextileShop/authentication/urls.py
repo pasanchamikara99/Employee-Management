@@ -12,6 +12,9 @@ urlpatterns = [
     path('applyleave',views.applyleave, name = "applyleave"),
     path('generatepdf',views.generatepdf, name = "generatepdf"),
     path('update_emp/<id>',views.update_emp, name = "update_emp"),
+<<<<<<< HEAD
     path('delete_emp/<id>',views.delete_emp, name = "delete_emp"),
+=======
+>>>>>>> d3090b1c5bb1c00824d63c614f296f6c042cc954
     path('updateuser',views.updateuser, name = "updateuser"),
 ]
