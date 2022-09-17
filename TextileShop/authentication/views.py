@@ -5,7 +5,7 @@ from re import template
 from urllib import response
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import messages
-from authentication.models import EmployeesReg,EmployeeLeave
+from authentication.models import EmployeesReg,EmployeeLeave, Leave
 from cryptography.fernet import Fernet
 import smtplib
 from django.contrib.auth.hashers import check_password,make_password
@@ -155,12 +155,11 @@ def changepassword(request):
 
     return render(request,"changepassword.html",context)
 
-<<<<<<< HEAD
+
     return render(request,"changepassword.html",context)
 
 
-=======
->>>>>>> d3090b1c5bb1c00824d63c614f296f6c042cc954
+
 
 def applyleave(request):
     if request.method == "POST":
@@ -168,10 +167,11 @@ def applyleave(request):
         date = request.POST.get('date')
         reason = request.POST.get('reason')
 
-        saveRecord = EmployeeLeave()
+        saveRecord = Leave()
         saveRecord.empid = empID
         saveRecord.date = date
         saveRecord.reason = reason
+        saveRecord.status = "pending"
         saveRecord.save()
         messages.success(request,"Apply leave sucessfully")
 
@@ -245,17 +245,61 @@ def updateuser(request):
 
     return  redirect("adminpage")
 
+def leaves(request):
+    result = Leave.objects.filter(status = "pending") 
+    leave = {
+        "leaveDetails" :result
+    }
 
-<<<<<<< HEAD
-def delete_emp(request,id):
+    return render(request,"adminleave.html",leave)
 
-    print(id)
-    employee = EmployeesReg.objects.get(id = id)
-=======
 
->>>>>>> d3090b1c5bb1c00824d63c614f296f6c042cc954
+def leaveMail(fname,email,date,status):
+
+    subject = "Hello " + fname + "\n Your Leave request on   " + date + "\n is  " + status
+    server = smtplib.SMTP('smtp.gmail.com',587)
+    server.starttls()
+    server.login('jayanandanafachion@gmail.com','ncipterepthpugjl')
+    server.sendmail('jayanandanafashion@gmail.com',email,subject)
+
+
+def approve_leave(request,id):
+    leave = Leave.objects.get(id = id)
+    saveRecord = Leave()
+    saveRecord.id = leave.id
+    saveRecord.empid = leave.empid
+    saveRecord.date = leave.date
+    saveRecord.reason = leave.reason
+    saveRecord.status = "approve"
+    saveRecord.save()
+
+    result = EmployeesReg.objects.get(empid=leave.empid)
+    status = "approve"
+    leaveMail(result.fname,result.email,leave.date,status)
+    messages.success(request,"Approve  leave Sucessfully")
+
+    return  redirect("leaves")
+
+def reject_leave(request,id):
+    leave = Leave.objects.get(id = id)
+    saveRecord = Leave()
+    saveRecord.id = leave.id
+    saveRecord.empid = leave.empid
+    saveRecord.date = leave.date
+    saveRecord.reason = leave.reason
+    saveRecord.status = "reject"
+    saveRecord.save()
+
+    result = EmployeesReg.objects.get(empid=leave.empid)
+    status = "rejected"
+    leaveMail(result.fname,result.email,leave.date,status)
+    messages.success(request,"Reject  leave Sucessfully")
+
+    return  redirect("leaves")
+
 
     
+
 
 
 
