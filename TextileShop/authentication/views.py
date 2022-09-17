@@ -156,6 +156,11 @@ def changepassword(request):
     return render(request,"changepassword.html",context)
 
 
+    return render(request,"changepassword.html",context)
+
+
+
+
 def applyleave(request):
     if request.method == "POST":
         empID = request.POST.get('empid')
