@@ -19,3 +19,13 @@ class EmployeeLeave(models.Model):
     reason = models.CharField(max_length=250)
     class Meta:
         db_table = "employee_leave"
+
+class Leave(models.Model):
+    date = models.CharField(max_length=45)
+    empid = models.CharField(max_length=45)
+    reason = models.CharField(max_length=255)
+    status = models.CharField(max_length=45)
+    class Meta:
+        db_table = "leave"
+
+

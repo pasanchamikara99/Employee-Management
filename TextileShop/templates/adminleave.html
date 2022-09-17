@@ -1,0 +1,44 @@
+{% extends 'adminnavbar.html' %}
+
+
+
+{% block content %}
+
+
+<div class="div">
+
+    <br><br>
+    <a id="generatepdf" href="generatepdf">Generate Pdf</a><br><br>
+
+
+
+        <table class="table table-bordered table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Employee ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Link</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for emp in leaveDetails %}
+                <tr>
+                <td>{{emp.empid}}</td>
+                <td>{{emp.date}}</td>
+                <td>{{emp.reason}}</td>
+                <td><a id="update" href="{% url 'approve_leave' emp.id %}">Approve </a>
+                    <a id="reject" href="{% url 'reject_leave' emp.id %}">Reject</a>
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        <table>
+</div>
+
+
+
+
+
+{% endblock %}
